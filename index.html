@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Employee Attendance Portal</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="loginView" class="center">
+    <div class="card login">
+      <div class="brand">Employee Attendance</div>
+      <h1>Sign in</h1>
+      <p class="muted">Admin and employee attendance portal</p>
+      <form id="loginForm">
+        <label>Email<input id="email" type="email" required autocomplete="username"></label>
+        <label>Password<input id="password" type="password" required autocomplete="current-password"></label>
+        <button class="primary" type="submit">Sign in</button>
+        <div id="loginError" class="error"></div>
+      </form>
+    </div>
+  </div>
+
+  <div id="appView" class="hidden">
+    <header>
+      <div>
+        <div class="brand">Employee Attendance</div>
+        <div id="roleLabel" class="muted"></div>
+      </div>
+      <button id="logoutBtn" class="ghost">Log out</button>
+    </header>
+
+    <main>
+      <section id="adminView" class="hidden">
+        <div class="pageTitle">
+          <div><h1>Admin Dashboard</h1><p class="muted">Manage employees and monitor attendance.</p></div>
+          <button id="refreshAdmin" class="ghost">Refresh</button>
+        </div>
+
+        <div class="stats">
+          <div class="stat"><span>Employees</span><strong id="statEmployees">0</strong></div>
+          <div class="stat"><span>Present today</span><strong id="statPresent">0</strong></div>
+          <div class="stat"><span>Checked out</span><strong id="statOut">0</strong></div>
+          <div class="stat"><span>Late</span><strong id="statLate">0</strong></div>
+        </div>
+
+        <div class="grid2">
+          <div class="card">
+            <h2>Add employee</h2>
+            <form id="employeeForm">
+              <label>Employee ID<input id="empId" required></label>
+              <label>Full name<input id="empName" required></label>
+              <label>Email<input id="empEmail" type="email" required></label>
+              <label>Department<input id="empDept"></label>
+              <label>Designation<input id="empDesignation"></label>
+              <label>Temporary password<input id="empPassword" type="password" minlength="8" required></label>
+              <button class="primary" type="submit">Create employee</button>
+              <div id="empMsg" class="message"></div>
+            </form>
+          </div>
+
+          <div class="card">
+            <h2>Office GPS settings</h2>
+            <p class="muted">Employees must be within this radius to check in/out.</p>
+            <form id="settingsForm">
+              <label>Office latitude<input id="officeLat" type="number" step="any" required></label>
+              <label>Office longitude<input id="officeLng" type="number" step="any" required></label>
+              <label>Allowed radius (metres)<input id="officeRadius" type="number" min="20" required></label>
+              <button class="primary" type="submit">Save settings</button>
+              <div id="settingsMsg" class="message"></div>
+            </form>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="row"><h2>Employees</h2><input id="employeeSearch" class="search" placeholder="Search employees..."></div>
+          <div class="tableWrap"><table><thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Department</th><th>Status</th></tr></thead><tbody id="employeeTable"></tbody></table></div>
+        </div>
+
+        <div class="card">
+          <div class="row"><h2>Today's attendance</h2><button id="exportBtn" class="ghost">Export CSV</button></div>
+          <div class="tableWrap"><table><thead><tr><th>Employee</th><th>Date</th><th>Check in</th><th>Check out</th><th>Location</th></tr></thead><tbody id="attendanceTable"></tbody></table></div>
+        </div>
+      </section>
+
+      <section id="employeeView" class="hidden">
+        <div class="pageTitle"><div><h1>My Attendance</h1><p class="muted">GPS is required for attendance actions.</p></div></div>
+        <div class="card employeeCard">
+          <h2 id="employeeWelcome">Welcome</h2>
+          <p id="todayStatus" class="status">Loading...</p>
+          <div class="actions"><button id="checkInBtn" class="primary big">CHECK IN</button><button id="checkOutBtn" class="secondary big">CHECK OUT</button></div>
+          <div id="gpsMsg" class="message"></div>
+        </div>
+        <div class="card"><h2>Attendance history</h2><div class="tableWrap"><table><thead><tr><th>Date</th><th>Check in</th><th>Check out</th><th>Location</th></tr></thead><tbody id="myAttendanceTable"></tbody></table></div></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
